@@ -1,0 +1,7 @@
+/* CSS declarations go here */
+li.comment-list {
+    list-style: none;
+    border: 1px solid gray;
+    text-align: left;
+    padding: 5px;
+}
