@@ -11,7 +11,9 @@ import { Template } from 'meteor/templating';
 import Post from './Posts.jsx';
 import Comment from './Comments.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
- 
+ import { Accounts } from 'meteor/accounts-base';
+
+
 Template.registerHelper("mdy", function (date) {
   if (date) {
     return moment.utc(date).format('MM/DD/YYYY');
@@ -31,7 +33,7 @@ export class App extends Component {
 
   addPost(event) {
     event.preventDefault();
-    console.log(event,'the event');
+    //console.log(event,'the event');
     // Find the text field via the React ref
     const name = ReactDOM.findDOMNode(this.refs.titleInput).value.trim();
     const content = ReactDOM.findDOMNode(this.refs.contentInput).value;
@@ -50,7 +52,7 @@ export class App extends Component {
         filteredPost = this.props.posts;
       }
       
-      console.log(display,filteredPost);
+      //console.log(display,filteredPost);
       if (this.state.hideCompleted) {
         filteredPost = filteredPost.filter(post => !post.checked);
       }
@@ -71,42 +73,17 @@ export class App extends Component {
         );
       });
     }
-
-
-  renderComments(){
-    const filteredPost = [
-                {
-                  "_id":"fdsfsdfs1",
-                  "owner":"chuckie",
-                  "post_id":"7J4E9BkC6HMyipMbq"
-                },
-                {
-                  "_id":"fdsfsdfs2",
-                  "owner":"chuckie",
-                  "post_id":"7J4E9BkC6HMyipMbq"
-                },
-                {
-                  "_id":"fdsfsdfs3",
-                  "owner":"chuckie",
-                  "post_id":"7J4E9BkC6HMyipMbq"
-                }
-              ];
-      return filteredPost.map((comment) => {
-        const currentUserId = this.props.currentUser && this.props.currentUser._id;
-        const showPrivateButton = comment.owner === currentUserId;
-   
-        return (
-          <li
-            key={comment._id}
-            comment={comment}
-            showPrivateButton={showPrivateButton}
-          />
-        );
-      });
+  getUserProfile(){
+    let user = Meteor.user().profile;
+    return user;
   }
 
   render() {
     let user = this.props.currentUser;
+    if(Meteor.user()){
+      let userProfile = this.getUserProfile();
+    }
+    
     return (
       <div className="container"  id="container-fluid" >
 
@@ -130,10 +107,11 @@ export class App extends Component {
               </div>
               <div className="form-group">
                 <textarea type="text" required
+                  className="full-w"
                   ref="contentInput" placeholder="Share your thoughts"></textarea>
               </div>
               <div className="form-group">
-                <button type="submit">Post</button>
+                <button type="submit" className="submit-btn">Post</button>
               </div>
             </form> : ''
 

@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Posts = new Mongo.Collection('posts');
+export const Chats = new Mongo.Collection('chats');
 //export const Likes = new Mongo.Collection('likes');
 let dLimit = 2;
 const added = 2;
@@ -16,12 +16,12 @@ if (Meteor.isServer) {
   
 
   // This code only runs on the server
-  Meteor.publish('posts', function postsPublication() {
+  Meteor.publish('chats', function postsPublication() {
     // return Recipes.find();
     // console.log(limiter,'limiter');
     dLimit += added;
    
-    return Posts.find({
+    return Chats.find({
       $or: [
         { private: { $ne: true } },
         { owner: this.userId },
@@ -40,7 +40,7 @@ if (Meteor.isServer) {
 let defaultDisplay = 5;
 Meteor.methods({
   
-  'posts.insert'(name, content) {
+  'chats.insert'(name, content) {
     check(name, String);
     check(content, String);
     console.log('content',content);
@@ -58,14 +58,14 @@ Meteor.methods({
     });
     toastr.success('Post <b style="color:red;">'+name+'</b> added');
   },
-  'posts.getTotal'() {
+  'chats.getTotal'() {
 
     let totalPosts = Posts.find({}).fetch().length;
     console.log(totalPosts);
     return totalPosts;
 
   },
-  'posts.remove'(postID) {
+  'chats.remove'(postID) {
     check(postID, String);
     console.log('ID:'+postID);
 
@@ -84,13 +84,13 @@ Meteor.methods({
     }
 
   },
-  'posts.setChecked'(postID, setChecked) {
+  'chats.setChecked'(postID, setChecked) {
     check(postID, String);
     check(setChecked, Boolean);
  
     Recipes.update(postID, { $set: { checked: setChecked } });
   },
-  'posts.setPrivate'(postID, setToPrivate) {
+  'chats.setPrivate'(postID, setToPrivate) {
     check(postID, String);
     check(setToPrivate, Boolean);
  
@@ -103,7 +103,7 @@ Meteor.methods({
  
     Posts.update(postsID, { $set: { private: setToPrivate } });
   },
-  'posts.ownBy'(postsID) {
+  'chats.ownBy'(postsID) {
     check(postsID, String);
 
     var rcp = Posts.findOne({_id:postsID});

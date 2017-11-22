@@ -90,22 +90,39 @@ Meteor.methods({
     return totalPosts;
 
   },
-  'comments.remove'(postID) {
-    check(postID, String);
-    console.log('ID:'+postID);
+  'comments.update'(commentID,newText) {
+    check(commentID, String);
+    check(newText, String);
+    console.log('ID:'+commentID);
 
-    var postInfo = Posts.findOne(postID);
-    var postOwner = postInfo.owner;
-    
-    if (postOwner == Meteor.userId()){
+    //var commentInfo = Comments.findOne(commentID);
+    // if (postOwner == Meteor.userId()){
       console.log('Can Delete');
-      Comments.remove(postID);
-      toastr.warning('Post <b style="color:red;">'+postInfo.name+'</b> has been deleted.', 'Success');
+      // Comments.remove(commentID);
+      Comments.update(commentID, { $set: { comment: newText } });
+      toastr.success('Comment has been Updated.', 'Updated');
       
-    } else {
-      toastr.warning('You\'re not allowed to remove <b style="color:red;">'+postInfo.name+'</b> because you\'re not the author.', 'Permission');
-      console.log('Not allowed to delete');
-    }
+    // } else {
+    //   toastr.warning('You\'re not allowed to remove <b style="color:red;">'+postInfo.name+'</b> because you\'re not the author.', 'Permission');
+    //   console.log('Not allowed to delete');
+    // }
+    //Recipes.remove(recipeId);
+  },
+  'comments.remove'(commentID) {
+    check(commentID, String);
+    console.log('ID:'+commentID);
+
+    //var commentInfo = Comments.findOne(commentID);
+    // if (postOwner == Meteor.userId()){
+      console.log('Can Delete');
+      Comments.remove(commentID);
+
+      toastr.warning('Comment has been deleted.', 'Deleted');
+      
+    // } else {
+    //   toastr.warning('You\'re not allowed to remove <b style="color:red;">'+postInfo.name+'</b> because you\'re not the author.', 'Permission');
+    //   console.log('Not allowed to delete');
+    // }
     //Recipes.remove(recipeId);
   },
   'comments.setChecked'(postID, setChecked) {

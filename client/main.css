@@ -1,7 +1,87 @@
 /* CSS declarations go here */
+li{
+	list-style: none;
+}
 li.comment-list {
-    list-style: none;
     border: 1px solid gray;
     text-align: left;
     padding: 5px;
+}
+
+.commentField-btn,
+.submit-new-comment,
+.submit-btn{
+    background-color: darkcyan;
+    color:#ffffff;
+    opacity: 0.8;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    -ms-appearance: caret;
+    -o-appearance: caret;
+}
+.commentField-btn:hover,
+.submit-new-comment:hover,
+.submit-btn:hover{
+	background-color: darkcyan;
+    color:#ffffff;
+    opacity: 1;
+}
+.edit-btn{
+    background-color: darkgreen;
+    color:#ffffff;
+    opacity: 0.8;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    -ms-appearance: caret;
+    -o-appearance: caret;
+}
+.edit-btn:hover{
+	background-color: darkgreen;
+    color:#ffffff;
+    opacity: 1;
+}
+.close-comment,
+.edit-btn-close{
+    background-color: maroon;
+    color:#ffffff;
+    opacity: 0.8;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    -ms-appearance: caret;
+    -o-appearance: caret;
+}
+.close-comment:hover,
+.edit-btn-close:hover{
+	background-color: maroon;
+    color:#ffffff;
+    opacity: 1;
+}
+
+.delete-btn{
+    background-color: lightcoral;
+    color:#ffffff;
+    opacity: 0.8;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    -ms-appearance: caret;
+    -o-appearance: caret;
+}
+
+.delete-btn:hover{
+	background-color: lightcoral;
+    color:#ffffff;
+    opacity: 1;
+}
+
+.full-w{
+	width: 100%;	
+}
+.pad-t-10{
+	padding-top: 10px;
+}
+.pad-l-40{
+	padding-left: 40px;
+}
+.mar-b-0{
+	margin-bottom: 0px;
 }
