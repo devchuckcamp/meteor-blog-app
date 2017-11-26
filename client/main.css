@@ -84,7 +84,7 @@ li.comment-list {
 }
 .chat-block-head{
     width: 100%;
-    background-color: blue;
+    background-color: #fafafa;
 }
 .chat-section{
     position: fixed;
@@ -98,7 +98,14 @@ li.comment-list {
     overflow-y: auto;
     max-height: 500px;
 }
-
+.online-user-block-listings a{
+    color:lightcoral;
+    cursor: pointer;
+}
+.online-user-block-listings a:hover{
+    text-decoration: none;
+    color:darkgreen;
+}
 
 /*Utilities Classes*/
 .full-w{

@@ -36,12 +36,24 @@ export class ChatUIWrapper extends Component {
     console.log(c);
   }
 
+  renderOnlineUsers(userID){
+      let users = this.props.onlineUsers;
+      return (users.map((user)=>{
+          let me = Meteor.userId();
+          return Meteor.userId() === user._id ? '':
+          <li key={user._id} >
+            <a href="#" className="users-list-a">
+              {user.status.online ? 'online':'offline'} - {user.username}
+            </a>
+          </li>
+
+        })
+      );
+    
+  }
+
   render() {
     console.log(this.state.chatOpen);
-
-    let users = this.props.onlineUsers;
-    console.log(users);
-
     return (
    
         
@@ -60,12 +72,7 @@ export class ChatUIWrapper extends Component {
                   </button>
                   <div className="online-user-block">
                     <ul className="online-user-block-listings">
-                      {users.map((user)=>{
-                          let me = Meteor.userId();
-                          return <li key={user._id} className={me == user._id ? 'hide':''}>{user.status.online ? 'online':'offline'} - {user.username}</li>
-                        
-                        })
-                      }
+                      {this.renderOnlineUsers()}
                     </ul>
                   </div>
                 </div>
