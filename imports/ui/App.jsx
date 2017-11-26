@@ -11,7 +11,9 @@ import { Template } from 'meteor/templating';
 import Post from './Posts.jsx';
 import Comment from './Comments.jsx';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
- import { Accounts } from 'meteor/accounts-base';
+import { Accounts } from 'meteor/accounts-base';
+//Chat
+import ChatUIWrapper from './ChatUIWrapper.jsx';
 
 
 Template.registerHelper("mdy", function (date) {
@@ -19,6 +21,7 @@ Template.registerHelper("mdy", function (date) {
     return moment.utc(date).format('MM/DD/YYYY');
   }
 });
+
 
 // App component - represents the whole app
 export class App extends Component {
@@ -28,7 +31,11 @@ export class App extends Component {
 
     this.state = {
       hideCompleted: true,
+      subscription: {
+          onlineUsers: Meteor.subscribe('allOnlineUsers')
+        }
     };
+
   }
 
   addPost(event) {
@@ -47,7 +54,7 @@ export class App extends Component {
     renderPost(update) {
       let display = update || false;
       let filteredPost = this.props.posts;
-
+      console.log(this.props.alluserlist);
       if( !display ){
         filteredPost = this.props.posts;
       }
@@ -80,6 +87,9 @@ export class App extends Component {
 
   render() {
     let user = this.props.currentUser;
+    // let users = this.props.onlineUsers;
+    // console.log(users);
+
     if(Meteor.user()){
       let userProfile = this.getUserProfile();
     }
@@ -92,7 +102,6 @@ export class App extends Component {
           <label>Hello, </label> 
           :''}          
           <AccountsUIWrapper />
-         
         </header>
           
           {user ?
@@ -123,8 +132,11 @@ export class App extends Component {
               
             </ul>
           </div>
-
+          <div id="footer">
+            <ChatUIWrapper />
+          </div>
       </div>
+      
     );
   }
 }
@@ -143,6 +155,8 @@ export default createContainer(() => {
     posts: Posts.find({}, { sort: { createdAt: -1 } } ).fetch(),
     comments: Comments.find({}, { sort: { createdAt: -1 } } ).fetch(),
     incompleteCount: Posts.find({ checked: { $ne: true } }).count(),
+    alluserlist: Meteor.users.find().count({}),
     currentUser: Meteor.user(),
+    onlineUsers: Meteor.users.find({}, {"status":{"online":true}}).fetch(),
   };
 }, App);

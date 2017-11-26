@@ -57,6 +57,7 @@ li.comment-list {
     opacity: 1;
 }
 
+.close-btn,
 .delete-btn{
     background-color: lightcoral;
     color:#ffffff;
@@ -66,13 +67,40 @@ li.comment-list {
     -ms-appearance: caret;
     -o-appearance: caret;
 }
-
+.close-btn,
 .delete-btn:hover{
 	background-color: lightcoral;
     color:#ffffff;
     opacity: 1;
 }
+#footer{
+    position: relative;
+}
+.footer-wrapper{
+    position: relative;
+}
+.chat-container{
+    position: relative;
+}
+.chat-block-head{
+    width: 100%;
+    background-color: blue;
+}
+.chat-section{
+    position: fixed;
+    bottom: 0;
+    right:0;
+}
+.online-user-block{
 
+}
+.online-user-block-listings{
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+
+/*Utilities Classes*/
 .full-w{
 	width: 100%;	
 }
