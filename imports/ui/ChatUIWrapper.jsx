@@ -179,20 +179,20 @@ export class ChatUIWrapper extends Component {
       let threadMessages = thread.messages;
       let threadMessageInput = 'thread-id-'+thread._id;
       return thread._id ?
-          
+            
           <ul key={thread._id} thread-id={thread._id} className="active-thread">
             { threadMessages.length ?
               this.renderMessages(thread.messages)
             :
               <span>No messages yet.</span>
             }
-            <form onSubmit={this.addNewMessage.bind(this)} className="chat-form">
-              <input type="hidden" ref={Meteor.user().username} />
-              <input type="hidden" ref="threadIdRef" value={thread._id} />
-              <textarea required type="text" name="user-text-input" ref="userTextInput" id={threadMessageInput}></textarea>
-              <button type="submit"><i className="fa fa-send"></i></button>
-            </form>
           </ul>
+          <form onSubmit={this.addNewMessage.bind(this)} className="chat-form">
+            <input type="hidden" ref={Meteor.user().username} />
+            <input type="hidden" ref="threadIdRef" value={thread._id} />
+            <textarea required type="text" name="user-text-input" ref="userTextInput" id={threadMessageInput}></textarea>
+            <button type="submit"><i className="fa fa-send"></i></button>
+          </form>
           :''
     }));
 
