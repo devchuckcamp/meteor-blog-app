@@ -107,6 +107,19 @@ li.comment-list {
     color:darkgreen;
 }
 
+
+/*Chat*/
+.active-thread-list{
+    position: fixed;
+    bottom: 0;
+    right: 10%;
+}
+.active-thread{
+    display: inline-block;
+    width: 150px;
+    margin: auto;
+}
+
 /*Utilities Classes*/
 .full-w{
 	width: 100%;	

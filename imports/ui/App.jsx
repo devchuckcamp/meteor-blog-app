@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import { Posts } from '../api/posts.js';
 import { Comments } from '../api/comments.js';
+import { Chats } from '../api/chats.js';
 // import { Likes } from '../api/likes.js';
 import { Template } from 'meteor/templating'; 
 import Post from './Posts.jsx';
@@ -54,7 +55,7 @@ export class App extends Component {
     renderPost(update) {
       let display = update || false;
       let filteredPost = this.props.posts;
-      console.log(this.props.alluserlist);
+      //console.log(this.props.alluserlist);
       if( !display ){
         filteredPost = this.props.posts;
       }
@@ -150,7 +151,8 @@ App.propTypes = {
 export default createContainer(() => {
   Meteor.subscribe('posts');
   Meteor.subscribe('comments');
-
+  Meteor.subscribe('chats');
+  
   return {
     posts: Posts.find({}, { sort: { createdAt: -1 } } ).fetch(),
     comments: Comments.find({}, { sort: { createdAt: -1 } } ).fetch(),

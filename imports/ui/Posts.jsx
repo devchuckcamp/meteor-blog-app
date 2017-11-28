@@ -48,19 +48,19 @@ export default class Post extends Component {
 
   updateThisCommentReady(event){
     this.setState({ updateThisCommentReady :!this.state.updateThisCommentReady });
-    console.log(this.state.updateThisCommentReady);
+    //console.log(this.state.updateThisCommentReady);
     
     let commentID = event.target.getAttribute("commentdataid");
 
     let arraycontainsReadyEditComment = this.isCommentOnReadyMode(commentID);
     if(arraycontainsReadyEditComment){
-      console.log('Already Ready');
+      //console.log('Already Ready');
       this.state.commentEditReadyList.splice(event.target.getAttribute("commentdataid"),1);
     }else{
       this.state.commentEditReadyList.push(event.target.getAttribute("commentdataid"));
     }
     
-    console.log(this.state.commentEditReadyList);
+   // console.log(this.state.commentEditReadyList);
   }
 
   isCommentOnReadyMode(commentID){
@@ -82,7 +82,7 @@ export default class Post extends Component {
       userProfile = Meteor.user().profile;
     }
     if ( Meteor.user() && userProfile.role == 1){
-      console.log('to remove comment:', el.target.getAttribute('dataid'));
+      //console.log('to remove comment:', el.target.getAttribute('dataid'));
       Meteor.call('comments.remove', commentID);  
     }else{
       toastr.warning('Sorry but you\'re not allowed to remove comments!', 'Permission Denied');
@@ -97,7 +97,7 @@ export default class Post extends Component {
       userProfile = Meteor.user().profile;
     }
     if ( Meteor.user() && userProfile.role == 1){
-      console.log('to remove comment:', el.target.getAttribute('dataid'));
+      //console.log('to remove comment:', el.target.getAttribute('dataid'));
       Meteor.call('comments.remove', commentID);  
     }else{
       toastr.warning('Sorry but you\'re not allowed to remove comments!', 'Permission Denied');

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import '../imports/api/posts.js';
 import '../imports/api/comments.js';
 import '../imports/api/users.js';
+import '../imports/api/chats.js';
 
 import { Accounts } from 'meteor/accounts-base';
 // export const Likes = new Mongo.Collection('blog');
