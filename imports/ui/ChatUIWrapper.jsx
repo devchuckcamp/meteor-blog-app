@@ -41,6 +41,24 @@ export class ChatUIWrapper extends Component {
     this.openChatThread(uid,Meteor.userId());
   }
 
+  //Send Chat Message
+  addNewMessage(event){
+    event.preventDefault();
+    
+    const message = ReactDOM.findDOMNode(this.refs.userTextInput).value.trim();
+    
+    const threadID = ReactDOM.findDOMNode(this.refs.threadIdRef).value.trim();
+    // const content = ReactDOM.findDOMNode(this.refs.contentInput).value;
+    Meteor.call('chats.insertMessage', threadID,message);
+    // console.log(threadID,'threadID');
+    // console.log(message,'message');
+    // console.log(username,'username');
+
+    // Clear form
+    ReactDOM.findDOMNode(this.refs.userTextInput).value = '';
+    //ReactDOM.findDOMNode(this.refs.contentInput).value = '';
+  }
+
   // thread box open/create
   openChatThread(to,from){
     //FROM
@@ -103,17 +121,11 @@ export class ChatUIWrapper extends Component {
   createThreadBox(thread){
 
     this.state.openThread.push(thread); 
-    console.log(this.state.openThread);
+    //console.log(this.state.openThread);
   }
 
   renderActiveThreadBox(){
-    // return (this.state.openThread.map((openThread)=>{
-    //   <div>
-    //     <ul>
-    //       <li>chat 1</li>
-    //     </ul>
-    //   </div>
-    // }));
+    //console.log(this.props.activeThreadBox,'boxes');
     const users = [
             {
               _id:"mij94443",
@@ -161,12 +173,25 @@ export class ChatUIWrapper extends Component {
               ]
             }
           ];
-    console.log(activeThread,'activeThread');
+    activeThread = this.props.activeThreadBox;
+    //console.log(activeThread,'activeThread');
     return (activeThread.map((thread)=>{
-      return thread.active ?
+      let threadMessages = thread.messages;
+      let threadMessageInput = 'thread-id-'+thread._id;
+      return thread._id ?
           
-          <ul key={thread._id} className="active-thread">
-            {this.renderMessages(thread.messages)}
+          <ul key={thread._id} thread-id={thread._id} className="active-thread">
+            { threadMessages.length ?
+              this.renderMessages(thread.messages)
+            :
+              <span>No messages yet.</span>
+            }
+            <form onSubmit={this.addNewMessage.bind(this)} className="chat-form">
+              <input type="hidden" ref={Meteor.user().username} />
+              <input type="hidden" ref="threadIdRef" value={thread._id} />
+              <textarea required type="text" name="user-text-input" ref="userTextInput" id={threadMessageInput}></textarea>
+              <button type="submit"><i className="fa fa-send"></i></button>
+            </form>
           </ul>
           :''
     }));
@@ -199,17 +224,27 @@ export class ChatUIWrapper extends Component {
   }
 
   renderMessages(messages){
-    
+    if(messages){
       return (messages.map((msg)=>{
         return msg.message ?
-          <li key={msg._id}>
-            {msg.message}
+          <li key={msg._id} className="chat-messages-li">
+            <div>
+              <label>{msg.authorId === Meteor.userId() ? 'You': msg.username }</label>
+            </div>
+            <div>  
+              <span>{msg.message}</span>
+            </div>
           </li>
           :
           <li>
             <span>Empty</span>
           </li>
       }));
+    }else{
+      return (messages.map((msg)=>{
+        return <li key="msg._id">No Message Yet</li>
+        }));
+    }
   }
 
 
@@ -274,7 +309,7 @@ export default createContainer(() => {
 
   return {
     onlineUsers: Meteor.users.find({},{status:{online:true}}).fetch(),
-    activeThreadBox:Chats.find({}).fetch(),
+    activeThreadBox:Chats.find({},{$or: [ {users:{_id:Meteor.userId()}} ]}).fetch(),
 
   };
 }, ChatUIWrapper);

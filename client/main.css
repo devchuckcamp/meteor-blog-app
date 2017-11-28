@@ -115,9 +115,27 @@ li.comment-list {
     right: 10%;
 }
 .active-thread{
-    display: inline-block;
-    width: 150px;
     margin: auto;
+    display: inline-block;
+    width: 250px;
+    margin: auto;
+    height: 200px;
+    overflow-y: scroll;
+    position: relative;
+    background: darkcyan;
+    color: #fafafa;
+}
+.active-thread i{
+    color: darkcyan;
+}
+.chat-form{
+    position: absolute;
+    bottom: 0;
+    width: auto;
+    left: 0;
+}
+.chat-form textarea{
+    color:darkcyan;
 }
 
 /*Utilities Classes*/

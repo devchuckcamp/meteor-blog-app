@@ -170,24 +170,56 @@ Meteor.methods({
     toastr.success('Comment has been Updated.', 'Updated');
   },
 
-  // 'chats.insert'(name, content) {
-  //   check(name, String);
-  //   check(content, String);
-  //   console.log('content',content);
-  //   // Make sure the user is logged in before inserting a task
-  //   if (! Meteor.userId()) {
-  //     throw new Meteor.Error('not-authorized');
-  //   }
-  
-  //   Posts.insert({
-  //     name,
-  //     content: content,
-  //     createdAt: new Date(),
-  //     owner: Meteor.userId(),
-  //     username: Meteor.user().username,
-  //   });
-  //   toastr.success('Post <b style="color:red;">'+name+'</b> added');
-  // },
+  'chats.insertMessage'(threadID,message) {
+    check(threadID, String);
+    check(message, String);
+    
+    // Make sure the user is logged in before inserting a task
+    if (! Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    
+    let username = Meteor.user().username;
+    let uid = Meteor.userId();
+    
+    // console.log('User:',uid);
+    // console.log('Username:',username);
+    // console.log('threadID:',threadID);
+    // console.log('message:',message);
+
+    const getDefaultMessages = (threadID)=>{
+      let thread = Chats.findOne({},{_id:threadID});
+      return thread.messages;
+    };
+
+    
+
+    const threadMessages = getDefaultMessages(threadID);
+    
+    let newThreadMessage = {
+                    _id:Math.trunc(new Date().getTime() / 1000),
+                    authorId:uid,
+                    username:username,
+                    message:message,
+                    createdAt:new Date()
+                };
+
+    //console.log(threadMessages,'threadMessages');
+    //console.log(newThreadMessage,'newThreadMessage');
+    threadMessages.push(newThreadMessage);
+    let newMessagesContent = threadMessages;
+    //console.log(threadMessages,'newMessages');
+
+    Chats.update(threadID, { $push: { messages: newThreadMessage } });
+    // Posts.insert({
+    //   name,
+    //   content: content,
+    //   createdAt: new Date(),
+    //   owner: Meteor.userId(),
+    //   username: Meteor.user().username,
+    // });
+    // toastr.success('Post <b style="color:red;">'+name+'</b> added');
+  },
   // 'chats.getTotal'() {
 
   //   let totalPosts = Posts.find({}).fetch().length;

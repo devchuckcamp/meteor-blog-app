@@ -134,7 +134,10 @@ export class App extends Component {
             </ul>
           </div>
           <div id="footer">
-            <ChatUIWrapper />
+            { Meteor.user()?
+              <ChatUIWrapper />
+              :''
+            }
           </div>
       </div>
       
